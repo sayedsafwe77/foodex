@@ -7,6 +7,8 @@ const Joi = require('joi');
 const upload = require('../middleware/food');
 const fs = require('fs');
 const path = require('path');
+const auth = require('../middleware/auth');
+const isAdmin = require('../middleware/isAdmin');
 const schema = Joi.object({
     name: Joi.string()
         .alphanum()
@@ -18,7 +20,7 @@ const schema = Joi.object({
     price: Joi.required(),
     description: Joi.required()
 })
-router.post('/', upload.single('pic'), async(req, res) => {
+router.post('/', auth, isAdmin, upload.single('pic'), async(req, res) => {
     try {
         const value = await schema.validateAsync(req.body);
         let category = await Category.findById(req.body.cat_id).select('name');
@@ -43,7 +45,7 @@ router.post('/', upload.single('pic'), async(req, res) => {
     }
 })
 
-router.put('/:id', async(req, res) => {
+router.put('/:id', auth, isAdmin, async(req, res) => {
     try {
         const food = await Food.findById(req.params.id);
         food.name = req.body.name;
@@ -69,7 +71,7 @@ router.get('/', async(req, res) => {
 
 
 
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', auth, isAdmin, async(req, res) => {
     let food = await Food.findByIdAndDelete(req.params.id);
     if (food) {
         fs.unlink(`assets/food/${food.pic}`, (err) => {});

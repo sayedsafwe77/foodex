@@ -9,6 +9,10 @@ UserSchema.methods.toJSON = function() {
     delete userObject.tokens;
     return userObject;
 }
+UserSchema.pre('save', async function() {
+    const user = this;
+    user.password = await bcrypt.hash(user.password, 8);
+})
 UserSchema.methods.generateAuthToken = async function() {
     let user = this;
     let token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET_KEY);

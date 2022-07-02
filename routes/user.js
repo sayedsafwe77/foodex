@@ -10,6 +10,6 @@ router.put('/profile/pic', auth, upload.single('avatar'), UserController.updateP
     res.status(400).send({ 'msg': err.message });
 });
 router.get('/:id', UserController.show)
-router.put('/:id', UserController.update);
+router.put('/:id', auth, UserController.update);
 router.delete('/me', auth, UserController.destroy);
 module.exports = router;

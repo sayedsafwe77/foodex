@@ -1,7 +1,6 @@
 let express = require('express');
 let app = express();
 let routes = require('./startup/routes');
-let auth = require('./middleware/auth');
 let db_connect = require('./database/connection');
 db_connect();
 app.use(express.json());

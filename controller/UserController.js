@@ -1,5 +1,4 @@
 let User = require('../Models/User');
-let bcrypt = require('bcryptjs');
 let UserSchema = require('../Request/UserRequest');
 let store = async(req, res) => {
     try {
@@ -11,7 +10,6 @@ let store = async(req, res) => {
         }
         user = new User(req.body);
         user.avatar = req.file.filename;
-        user.password = await bcrypt.hash(req.body.password, 8);
         res.send(await user.save());
     } catch (err) {
         res.status(400).send({ 'msg': (err.details[0].message || err) });;
@@ -27,7 +25,9 @@ let show = async(req, res) => {
 };
 
 let update = async(req, res) => {
-    res.send(await User.findByIdAndUpdate(req.params.id, req.body));
+    let user = User.findById(req.params.id);
+    user.update(req.body);
+    res.send(await user.save());
 };
 
 let destroy = async(req, res) => {

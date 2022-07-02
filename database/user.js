@@ -22,6 +22,10 @@ let UserSchema = new mongoose.Schema({
     avatar: {
         type: String
     },
+    type: {
+        type: String,
+        default: 'user'
+    },
     tokens: [{
         token: {
             type: String,

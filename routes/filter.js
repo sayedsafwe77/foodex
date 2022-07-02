@@ -14,12 +14,17 @@ router.get('/rastaurant', async(req, res) => {
     res.send(await Restaurant.find({ name: pattern }));
 });
 router.get('/food/category', async(req, res) => {
-    let pattern = '.*' + req.body.category_name + '.*';
+    let pattern = '.*' + req.body.name + '.*';
     pattern = new RegExp(pattern, 'g');
     let categorys = await Category.find({ name: pattern }).select('name');
     let category_ids = [];
     categorys.forEach(category => category_ids.push(category.id.toString()));
     res.send(await Food.find({ 'category.id': { $in: category_ids } }));
+});
+router.get('/food/rastaurant', async(req, res) => {
+    let pattern = '.*' + req.body.name + '.*';
+    pattern = new RegExp(pattern, 'g');
+    res.send(await Food.find({ 'resturant.name': pattern }));
 });
 
 module.exports = router;

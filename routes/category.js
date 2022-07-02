@@ -5,6 +5,8 @@ const Joi = require('joi');
 const upload = require('../middleware/categoryavatar');
 const fs = require('fs');
 const path = require('path');
+const auth = require('../middleware/auth');
+const isAdmin = require('../middleware/isAdmin');
 const schema = Joi.object({
     name: Joi.string()
         .alphanum()
@@ -12,7 +14,7 @@ const schema = Joi.object({
         .max(30)
         .required(),
 })
-router.post('/', upload.single('pic'), async(req, res) => {
+router.post('/', auth, isAdmin, upload.single('pic'), async(req, res) => {
     try {
         const value = await schema.validateAsync(req.body);
         let category = new Category(req.body);
@@ -27,7 +29,7 @@ router.post('/', upload.single('pic'), async(req, res) => {
     }
 })
 
-router.put('/:id', async(req, res) => {
+router.put('/:id', auth, isAdmin, async(req, res) => {
     try {
         const value = await schema.validateAsync(req.body);
         const category = await Category.findById(req.params.id);
@@ -48,7 +50,7 @@ router.get('/', async(req, res) => {
     res.send(await Category.find());
 })
 
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', auth, isAdmin, async(req, res) => {
     let category = await Category.findByIdAndDelete(req.params.id);
     if (category) {
         fs.unlink(`assets/category/${category.pic}`, (err) => {});
