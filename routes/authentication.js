@@ -8,7 +8,7 @@ router.post('/login', async function(req, res) {
         let token = await user.generateAuthToken();
         res.send({ user, token });
     } catch (error) {
-        res.sendStatus(400).send('invalid cradentails');
+        res.send('invalid cradentails', 400);
     }
 })
 
