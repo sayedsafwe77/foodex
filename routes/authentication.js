@@ -3,9 +3,13 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 router.post('/login', async function(req, res) {
-    let user = await User.findByCradentials(req.body.email, req.body.password);
-    let token = await user.generateAuthToken();
-    res.send({ user, token });
+    try {
+        let user = await User.findByCradentials(req.body.email, req.body.password);
+        let token = await user.generateAuthToken();
+        res.send({ user, token });
+    } catch (error) {
+        res.sendStatus(400).send('invalid cradentails');
+    }
 })
 
 router.post('/logout', auth, async function(req, res) {
