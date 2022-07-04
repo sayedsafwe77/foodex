@@ -15,7 +15,6 @@ app.use('/filter', routes.filter);
 app.use('/category', routes.category);
 app.use('/rastaurant', routes.rastaurant);
 let port = process.env.PORT || 8000;
-console.log(process.env.DATABASE_URL);
 app.listen(port, function() {
     console.log(`server is running ${port}`);
 })
