@@ -14,11 +14,17 @@ let RestaurantsSchema = new mongoose.Schema({
     },
     pic: {
         type: String,
-        required: true
+        required: true,
+        get(value) {
+            return `${process.env.APP_URL}:${process.env.PORT}/restaurant/${value}`;
+        }
     },
     cover_photo: {
         type: String,
-        required: true
+        required: true,
+        get(value) {
+            return `${process.env.APP_URL}:${process.env.PORT}/restaurant/${value}`;
+        }
     },
     rating: {
         type: Number,
@@ -40,6 +46,6 @@ let RestaurantsSchema = new mongoose.Schema({
     long: {
         type: String
     }
-})
+}, { toJSON: { getters: true } })
 
 module.exports = RestaurantsSchema;

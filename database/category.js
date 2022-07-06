@@ -6,8 +6,10 @@ let CategorySchema = new mongoose.Schema({
         required: true
     },
     pic: {
-        type: String
+        type: String,
+        get(value) {
+            return `${process.env.APP_URL}:${process.env.PORT}/category/${value}`;
+        }
     },
-})
-
+}, { toJSON: { getters: true } })
 module.exports = CategorySchema;

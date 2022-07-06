@@ -14,7 +14,8 @@ app.use('/food', routes.food);
 app.use('/filter', routes.filter);
 app.use('/category', routes.category);
 app.use('/rastaurant', routes.rastaurant);
-
+app.use('/order', routes.order);
+app.use('/card', routes.card);
 let port = process.env.PORT || 8000;
 app.listen(port, function() {
     console.log(`server is running ${port}`);

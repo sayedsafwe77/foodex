@@ -2,6 +2,7 @@ let Restaurant = require('../Models/Restaurant');
 const fs = require('fs');
 
 const Joi = require('joi');
+const Food = require('../Models/Food');
 const schema = Joi.object({
     name: Joi.string()
         .required(),
@@ -41,7 +42,21 @@ const create = async(req, res) => {
         }
     }
 };
-
+const show = async(req, res) => {
+    res.send(await Restaurant.findById(req.params.id));
+};
+const update = async(req, res) => {
+    try {
+        const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, req.body);
+        await restaurant.save();
+        res.send()
+    } catch (error) {
+        res.status(400).send({ 'msg': error.details[0].message });
+    }
+};
+const getRestaurentFood = async(req, res) => {
+    res.send(await Food.find({ 'resturant.id': req.params.id }));
+};
 const destroy = async(req, res) => {
     let restaurant = await Restaurant.findByIdAndDelete(req.params.id);
     if (restaurant) {
@@ -53,5 +68,8 @@ const destroy = async(req, res) => {
 module.exports = {
     create,
     destroy,
-    index
+    index,
+    getRestaurentFood,
+    show,
+    update
 }

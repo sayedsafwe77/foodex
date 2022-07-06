@@ -1,45 +1,27 @@
-let mongoose = require('mongoose');
+let arr1 = [{
+        id: 3,
+        quantity: 1
+    },
+    {
+        id: 1,
+        quantity: 5
+    },
+    {
+        id: 4,
+        quantity: 10
+    },
+]
 
-let RestaurantsSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+let arr2 = [{
+        id: 1,
+        quantity: 1
     },
-    address: {
-        type: String
+    {
+        id: 3,
+        quantity: 5
     },
-    delivery_time: {
-        type: String,
-        required: true
+    {
+        id: 6,
+        quantity: 10
     },
-    pic: {
-        type: String,
-        required: true
-    },
-    cover_photo: {
-        type: String,
-        required: true
-    },
-    rating: {
-        type: Number,
-        min: 0,
-        max: 5
-    },
-    tags: {
-        type: [String],
-    },
-    verified: {
-        type: Boolean
-    },
-    number_of_ratings: {
-        type: Number
-    },
-    lat: {
-        type: String
-    },
-    long: {
-        type: String
-    }
-})
-
-module.exports = RestaurantsSchema;
+];

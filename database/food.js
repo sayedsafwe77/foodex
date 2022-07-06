@@ -28,7 +28,7 @@ let FoodSchema = new mongoose.Schema({
         type: String,
         required: true,
         get(value) {
-            return `${process.env.APP_URL}:${process.env.APP_PORT}/food/${value}`;
+            return `${process.env.APP_URL}:${process.env.PORT}/food/${value}`;
         }
     },
     rating: {
