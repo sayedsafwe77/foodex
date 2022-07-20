@@ -5,34 +5,45 @@ let store = async(req, res) => {
         const value = await UserSchema.validateAsync(req.body);
         let user = await User.findOne({ email: req.body.email })
         if (user) {
-            console.log(user);
             throw new Error(JSON.stringify({ details: 'email already exist' }));
         }
         user = new User(req.body);
         user.avatar = req.file.filename;
         res.send(await user.save());
     } catch (err) {
-        res.status(400).send({ 'msg': (err.details[0].message || err) });;
+        res.status(400).send({ 'msg': (err.details[0].message || err) });
     }
 };
 let updateProfilePic = async(req, res) => {
-    req.user.avatar = req.file.filename;
-    await req.user.save();
-    res.send()
+    try {
+        req.user.avatar = req.file.filename;
+        await req.user.save();
+        res.send({ msg: 'done' })
+    } catch (error) {
+        res.send({ msg: 'done' }, 200);
+    }
 };
 let show = async(req, res) => {
     res.send(await User.findById(req.params.id));
 };
 
 let update = async(req, res) => {
-    let user = User.findById(req.params.id);
-    user.update(req.body);
-    res.send(await user.save());
+    try {
+        let user = await User.findById(req.params.id);
+        user.update(req.body);
+        res.send(await user.save());
+    } catch (error) {
+        res.send(error, 400);
+    }
 };
 
 let destroy = async(req, res) => {
-    await req.user.remove();
-    res.send(req.user);
+    try {
+        await req.user.remove();
+        res.send(req.user);
+    } catch (error) {
+        res.send(error, 400);
+    }
 };
 module.exports = {
     store,
