@@ -5,7 +5,8 @@ let store = async(req, res) => {
         const value = await UserSchema.validateAsync(req.body);
         let user = await User.findOne({ email: req.body.email })
         if (user) {
-            throw new Error(JSON.stringify({ details: 'email already exist' }));
+            console.log('here');
+            throw 'email already exist';
         }
         user = new User(req.body);
         user.avatar = req.file.filename;
