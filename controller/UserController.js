@@ -11,7 +11,7 @@ let store = async(req, res) => {
         user.avatar = req.file.filename;
         res.send(await user.save());
     } catch (err) {
-        res.status(400).send({ 'msg': (err.details[0].message || err) });
+        res.status(400).send({ 'msg': err });
     }
 };
 let updateProfilePic = async(req, res) => {
